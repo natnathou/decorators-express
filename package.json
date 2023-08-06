@@ -1,6 +1,6 @@
 {
   "name": "decorators-express",
-  "version": "1.7.18",
+  "version": "1.7.29",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
