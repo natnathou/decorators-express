@@ -22,4 +22,5 @@ __exportStar(require("./controllers/decorators/param.decorator"), exports);
 __exportStar(require("./controllers/decorators/query.decorator"), exports);
 __exportStar(require("./controllers/constants/route-types-keys.constant"), exports);
 __exportStar(require("./controllers/constants/metadata-keys.constant"), exports);
+__exportStar(require("./router"), exports);
 //# sourceMappingURL=index.js.map

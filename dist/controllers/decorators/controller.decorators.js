@@ -1,11 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Controller = void 0;
 require("reflect-metadata");
-const router_1 = __importDefault(require("../../router"));
+const router_1 = require("../../router");
 const constants_1 = require("../constants");
 function Controller(globalPath) {
     return function (constructor) {
@@ -24,7 +21,7 @@ function Controller(globalPath) {
             }
             if (path && routeType) {
                 let finalPath = `${globalPath}${path}`;
-                const router = router_1.default.getInstance();
+                const router = router_1.AppRouter.getInstance();
                 router[routeType](finalPath, function (req, res) {
                     const args = setArguments(constructor, propertyKey, req, res);
                     constructor.prototype[propertyKey].apply(constructor.prototype, args);

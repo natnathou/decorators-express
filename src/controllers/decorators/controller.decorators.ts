@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import AppRouter from "../../router";
+import { AppRouter } from "../../router";
 import { RoutesTypesKeys, MetadataKey } from "../constants";
 import { Response, Request } from  'express';
 import { ParamMetadata } from "./param.decorator";

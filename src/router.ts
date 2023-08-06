@@ -1,7 +1,7 @@
 import express, { Router } from 'express'
 const router = express.Router();
 
-class AppRouter{
+export class AppRouter{
     private static instance: Router;
    
     static getInstance(){
@@ -11,5 +11,3 @@ class AppRouter{
         return this.instance;
     }
 }
-
-export default AppRouter;

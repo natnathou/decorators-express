@@ -7,3 +7,4 @@ export * from './controllers/decorators/query.decorator';
 
 export * from './controllers/constants/route-types-keys.constant';
 export * from './controllers/constants/metadata-keys.constant';
+export * from './router';
