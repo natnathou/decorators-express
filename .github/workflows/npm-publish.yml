@@ -32,10 +32,8 @@ jobs:
         run: git add . && git commit -am "after build from workflow"
       - name: Patch npm version
         run:  npm version patch
-      - name: update git remote
-        run: git remote add origin "https://github.com/natnathou/decorators-express.git"
-      - name: Commit change after upgrade version
-        run: git push origin master
+      - name: push change after upgrade version
+        run: git push origin master --follow-tags --force
       - name: Publish package on NPM 📦
         run: npm publish
         env:
