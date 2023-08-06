@@ -6,9 +6,10 @@ export interface ParamMetadata{
   name: string
 }
 
+export const paramDecorate = (name: string)=>(prototype: Object, propertyKey: string, parameterIndex: number) => {
+  const paramMetadata = Reflect.getMetadata(MetadataKey.param, prototype, propertyKey) || [];
+  Reflect.defineMetadata(MetadataKey.param , [...paramMetadata, {index: parameterIndex, name}], prototype, propertyKey);
+};
 export function Param(name: string){
-    return function (prototype: Object, propertyKey: string, parameterIndex: number) {
-      const paramMetadata = Reflect.getMetadata(MetadataKey.param, prototype, propertyKey) || [];
-        Reflect.defineMetadata(MetadataKey.param , [...paramMetadata, {index: parameterIndex, name}], prototype, propertyKey);
-      };
+    return paramDecorate(name);
 }
