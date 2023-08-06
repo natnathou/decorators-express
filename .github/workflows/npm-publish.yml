@@ -20,6 +20,8 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies and build 🔧
         run: npm ci && npm run build
+      - name: Commit change
+        run: git add . && git commit -am "new version"
       - name: Patch npm version
         run:  npm version patch 
       - name: Publish package on NPM 📦
