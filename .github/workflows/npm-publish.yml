@@ -34,6 +34,7 @@ jobs:
         run: npm ci && npm run build
       - name: Commit change after build
         run: git add . && git commit -am "after build from workflow"
+        continue-on-error: true
       - name: Patch npm version
         run:  npm version patch
       - name: Publish package on NPM 📦
