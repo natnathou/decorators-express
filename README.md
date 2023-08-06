@@ -46,6 +46,9 @@ export class RootController{
 import './controllers/RootController';
 ```
 Use @Controller to register express route for class.
+
 Use @GET/@DELETE/@POST/@PUT/@PATCH/@HEAD/@OPTIONS to register sub-route path for a method.
-Inject request parameters from @PARAM/@QUERY/@BODY
-Inject Response From express request, from @RES
+
+Inject request parameters with @PARAM/@QUERY/@BODY
+
+Inject Response From express with @RES
