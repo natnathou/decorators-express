@@ -40,8 +40,6 @@ jobs:
         run: git fetch
       - name: checkout master
         run: git checkout master
-      - name: push change after upgrade version
-        run: git push origin master
         # Push the changes
       - name: Push changes
         uses: ad-m/github-push-action@master
