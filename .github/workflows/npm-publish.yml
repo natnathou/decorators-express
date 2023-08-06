@@ -32,9 +32,21 @@ jobs:
         run: git add . && git commit -am "after build from workflow"
       - name: Patch npm version
         run:  npm version patch
-      - name: Commit change after upgrade version
-        run: git push origin master
       - name: Publish package on NPM 📦
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: git fetch
+        run: git fetch
+      - name: checkout master
+        run: git checkout master
+      - name: push change after upgrade version
+        run: git push origin master
+        # Push the changes
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.TOKEN_GITHUB }}
+          branch: master
+          force: true
+
