@@ -7,5 +7,3 @@ export enum RoutesTypesKeys{
     head =  'head',
     options =  'options',
 }
-
-console.log('ok')
