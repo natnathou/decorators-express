@@ -11,4 +11,5 @@ var RoutesTypesKeys;
     RoutesTypesKeys["head"] = "head";
     RoutesTypesKeys["options"] = "options";
 })(RoutesTypesKeys || (exports.RoutesTypesKeys = RoutesTypesKeys = {}));
+console.log('ok');
 //# sourceMappingURL=route-types-keys.constant.js.map
