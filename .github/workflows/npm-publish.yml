@@ -18,6 +18,7 @@ jobs:
         with:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
+          github_token: ${{ secrets.TOKEN_GITHUB }}
       - name: Install dependencies and build 🔧
         run: npm ci && npm run build
       - name: Set git config username
@@ -38,8 +39,6 @@ jobs:
         run: git checkout master
       - name: push change after upgrade version
         run: git push origin master
-        env:
-          github_token: ${{ secrets.TOKEN_GITHUB }}
       - name: Publish package on NPM 📦
         run: npm publish
         env:
