@@ -20,6 +20,10 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies and build 🔧
         run: npm ci && npm run build
+      - name: Set git config username
+        run: git config --global user.username ${{ secrets.USERNAME }}
+      - name: Set git config email
+        run: git config --global user.email ${{ secrets.EMAIL }}
       - name: Commit change
         run: git add . && git commit -am "new version"
       - name: Patch npm version
