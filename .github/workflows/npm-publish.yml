@@ -21,9 +21,13 @@ jobs:
       - name: Install dependencies and build 🔧
         run: npm ci && npm run build
       - name: Set git config username
-        run: git config --global user.name ${{ secrets.GIT_USERNAME }}
+        run: git config --global user.name "$GIT_USERNAME"
+        env:
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
       - name: Set git config email
-        run: git config --global user.email ${{ secrets.GIT_EMAIL }}
+        run: git config --global user.email "$GIT_EMAIL"
+        env:
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
       - name: Commit change
         run: git add . && git commit -am "new version"
       - name: Patch npm version
