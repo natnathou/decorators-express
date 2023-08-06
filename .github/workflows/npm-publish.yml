@@ -38,6 +38,8 @@ jobs:
         run: git checkout master
       - name: push change after upgrade version
         run: git push origin master
+        env:
+          github_token: ${{ secrets.TOKEN_GITHUB }}
       - name: Publish package on NPM 📦
         run: npm publish
         env:
