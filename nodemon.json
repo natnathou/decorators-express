@@ -1,5 +1,5 @@
 {
     "legacyWatch": ["dist"],
-    "exec": "node ./dist/main",
+    "exec": "node ./dist/index",
     "ext": "js, json"
 }
