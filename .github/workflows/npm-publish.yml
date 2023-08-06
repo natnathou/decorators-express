@@ -18,8 +18,6 @@ jobs:
         with:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
-      - name: Install dependencies and build 🔧
-        run: npm ci && npm run build
       - name: Set git config username
         run: git config --global user.name "$GIT_USERNAME"
         env:
@@ -28,6 +26,14 @@ jobs:
         run: git config --global user.email "$GIT_EMAIL"
         env:
           GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+      - name: git fetch
+        run: git fetch
+      - name: checkout master
+        run: git checkout master
+      - name: Install dependencies and build 🔧
+        run: npm ci && npm run build
+      - name: Git status
+        run: git status
       - name: Commit change after build
         run: git add . && git commit -am "after build from workflow"
       - name: Patch npm version
@@ -36,11 +42,9 @@ jobs:
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: git fetch
-        run: git fetch
-      - name: checkout master
-        run: git checkout master
         # Push the changes
+      - name: Git status
+        run: git status
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
