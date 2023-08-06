@@ -33,7 +33,7 @@ jobs:
       - name: Patch npm version
         run:  npm version patch
       - name: push change after upgrade version
-        run: git push origin master --follow-tags --force
+        run: git checkout master && git push origin master
       - name: Publish package on NPM 📦
         run: npm publish
         env:
