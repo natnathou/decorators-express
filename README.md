@@ -8,7 +8,7 @@ npm i -D express-decorator
 
 ## How to use
 #### Import AppRouter instance in your file app.ts
-```
+``` ts
 import express from 'express';
 import { AppRouter } from 'decorators-express';
 import './controllers/RootController';
@@ -29,7 +29,7 @@ console.log(`server is listening on ${PORT} port`);
 
 
 #### Declare a class and mark it with @controller('your path')
-```
+``` ts
 import { Response } from  'express';
 import { Controller, Get, Res, Param } from 'decorators-express';
 
@@ -42,7 +42,7 @@ export class RootController{
 }
 ```
 #### Don't forget to import all your class in your root file app.ts
-```
+``` ts
 import './controllers/RootController';
 ```
 Use @Controller to register express route for class.
