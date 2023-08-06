@@ -1,3 +1,11 @@
 export enum RoutesTypesKeys{
-    get =  'get'
+    get =  'get',
+    post =  'post',
+    delete =  'delete',
+    patch =  'patch',
+    put =  'put',
+    head =  'head',
+    options =  'options',
 }
+
+console.log('ok')
