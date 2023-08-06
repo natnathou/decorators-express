@@ -28,10 +28,12 @@ jobs:
         run: git config --global user.email "$GIT_EMAIL"
         env:
           GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
-      - name: Commit change
-        run: git add . && git commit -am "new version"
+      - name: Commit change after build
+        run: git add . && git commit -am "after build from workflow"
       - name: Patch npm version
-        run:  npm version patch 
+        run:  npm version patch
+      - name: Commit change after upgrade version
+        run: git push origin master
       - name: Publish package on NPM 📦
         run: npm publish
         env:
