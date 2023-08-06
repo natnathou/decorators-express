@@ -36,7 +36,7 @@ jobs:
         run: git add . && git commit -am "after build from workflow"
         continue-on-error: true
       - name: Patch npm version
-        run:  npm version minor
+        run:  npm version patch
       - name: Publish package on NPM 📦
         run: npm publish
         env:
