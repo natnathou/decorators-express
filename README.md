@@ -3,7 +3,7 @@ a module to build TypeScript application with Express decorators
 
 ## Install
 ```
-npm i -D express-decorator
+npm i -D decorators-express
 ```
 
 ## How to use
