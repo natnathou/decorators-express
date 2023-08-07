@@ -4,6 +4,7 @@ export * from './controllers/decorators/req.decorator';
 export * from './controllers/decorators/next.decorator';
 export * from './controllers/decorators/route.decorator';
 export * from './controllers/decorators/use.decorator';
+export * from './controllers/decorators/guard.decorator';
 export * from './controllers/decorators/body.decorator';
 export * from './controllers/decorators/param.decorator';
 export * from './controllers/decorators/query.decorator';

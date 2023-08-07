@@ -8,4 +8,5 @@ export enum MetadataKey{
     param = 'param',
     query = 'query',
     middlewares = 'middlewares',
+    guard = 'guard',
 }

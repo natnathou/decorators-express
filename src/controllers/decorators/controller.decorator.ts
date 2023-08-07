@@ -6,6 +6,7 @@ import { ParamMetadata } from "./param.decorator";
 import {BodyMetadata} from "./body.decorator";
 import {QueryMetadata} from "./query.decorator";
 import {RequestHandler} from "express-serve-static-core";
+import {GuardFncType} from "./guard.decorator";
 
 export type ArgumentOptions = Request | Response | NextFunction | {[key: string]: string} | string;
 
@@ -13,13 +14,13 @@ export function Controller(globalPath: string){
     return function <T extends { new(...args: any[]): {} }>(constructor: T)  {
       
         const prototypeKeys = Object.getOwnPropertyNames(constructor.prototype);
-    
-       
+
         for(let propertyKey of prototypeKeys) {
             
             const routeType: RoutesTypesKeys = Reflect.getMetadata(MetadataKey.routeType, constructor.prototype, propertyKey);
             let path: string = Reflect.getMetadata(MetadataKey.path, constructor.prototype, propertyKey);
             const globalMiddlewares: RequestHandler[] = Reflect.getMetadata(MetadataKey.middlewares, constructor.prototype, propertyKey) || [];
+            const globalGuard: GuardFncType | undefined = Reflect.getMetadata(MetadataKey.guard, constructor.prototype, propertyKey);
 
             if(path?.[0] !== '/'){
                 path += '/';
@@ -36,9 +37,22 @@ export function Controller(globalPath: string){
                 const finalPath = `${globalPath}${path}`
                 const router = AppRouter.getInstance();
                 
-                router[routeType]( finalPath,...globalMiddlewares, ...middlewares, function (req: Request, res: Response, next: NextFunction){
+                router[routeType](
+                    finalPath,
+                    ...globalMiddlewares,
+                    ...middlewares,
+                    function (req: Request, res: Response, next: NextFunction){
+                        const guard: GuardFncType | undefined = Reflect.getMetadata(MetadataKey.guard, constructor.prototype, propertyKey);
+                        if(globalGuard && !globalGuard(req, res)){
+                            res.status(403)
+                        } else if(guard && !guard(req, res)){
+                            res.status(403)
+                        } else{
+                            next();
+                        }
+                    },
+                    function (req: Request, res: Response, next: NextFunction){
                     const args: any[] = setArguments<T>(constructor, propertyKey, req, res, next);
-                    
                     (constructor.prototype[propertyKey] as Function).apply(constructor.prototype, args)
                 })
             }
