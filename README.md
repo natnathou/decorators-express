@@ -28,7 +28,7 @@ console.log(`server is listening on ${PORT} port`);
 ```
 
 
-### Declare a class and mark it with @controller('your path')
+### Declare a class and mark it with @Controller('your path')
 ``` ts
 import {NextFunction, Request, Response} from 'express';
 import {Controller, Get, Res, Param, Post, Req, Patch, Delete, Guard, Use} from 'decorators-express';
