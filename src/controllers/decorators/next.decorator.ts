@@ -1,10 +1,11 @@
 import 'reflect-metadata';
-import { MetadataKey } from "../constants";
+
+import { MetadataKey } from '../constants';
 
 
 export const nextDecorate = (prototype: Object, propertyKey: string, parameterIndex: number) => {
-    Reflect.defineMetadata(MetadataKey.req , parameterIndex, prototype, propertyKey);
+  Reflect.defineMetadata(MetadataKey.req, parameterIndex, prototype, propertyKey);
 };
-export function Next(){
-    return nextDecorate;
+export function Next() {
+  return nextDecorate;
 }

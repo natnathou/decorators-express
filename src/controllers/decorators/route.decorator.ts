@@ -1,14 +1,14 @@
 import 'reflect-metadata';
-import { RoutesTypesKeys, MetadataKey } from "../constants";
 
-function route(routeType: RoutesTypesKeys){   
-    return function(path: string){
-        return function (prototype: any, propertyKey: string, descriptor: PropertyDescriptor) {
-            Reflect.defineMetadata(MetadataKey.path , path, prototype, propertyKey);
-            Reflect.defineMetadata(MetadataKey.routeType , routeType, prototype, propertyKey);
-          };
-    }
-    
+import { MetadataKey, RoutesTypesKeys } from '../constants';
+
+function route(routeType: RoutesTypesKeys) {   
+  return function (path: string) {
+    return function (prototype: any, propertyKey: string, descriptor: PropertyDescriptor) {
+      Reflect.defineMetadata(MetadataKey.path, path, prototype, propertyKey);
+      Reflect.defineMetadata(MetadataKey.routeType, routeType, prototype, propertyKey);
+    };
+  };
 }
 
 
