@@ -53,7 +53,7 @@ describe('Body decorator', () => {
         }
 
         // Check if the Body decorator is applied to the method
-        expect(spyOnBodyDecorate).toBeCalledWith({}, 'getName', 0);
+        expect(spyOnBodyDecorate).toBeCalledWith(undefined);
     })
 
     it('metadata should exist', () => {
@@ -75,7 +75,7 @@ describe('Body decorator', () => {
         }
 
         const metadata = Reflect.getMetadata(MetadataKey.body, Person.prototype, 'getName')
-        expect(metadata).toBe(0);
+        expect(metadata).toMatchObject({ index: 0, names: undefined });
     })
 })
 
