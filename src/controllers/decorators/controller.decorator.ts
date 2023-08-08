@@ -15,7 +15,8 @@ export type ArgumentOptions = Request | Response | NextFunction | { [key: string
 export function Controller(globalPathParam: string) {
   let globalPath = globalPathParam;
   return function <T extends { new(...args: any[]): {} }>(constructor: T)  {
-    const prototypeKeys = Object.getOwnPropertyNames(constructor.prototype);
+    const prototypeKeys = Object.getOwnPropertyNames(constructor.prototype).filter(p=>p !== 'constructor');
+
     logger.info(`[${constructor.name}] controller has been instanced`);
     for (const propertyKey of prototypeKeys) {
       const routeType: RoutesTypesKeys = Reflect.getMetadata(MetadataKey.routeType, constructor.prototype, propertyKey);
