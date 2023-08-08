@@ -41,7 +41,7 @@ describe('Body decorator', () => {
         expect(spyOnBody).toBeCalledTimes(1);
     })
 
-    it('bodyDecorate should be call', () => {
+    it('bodyDecorate should be call with undefined', () => {
         const spyOnBodyDecorate = jest.spyOn(
             require('../body.decorator'), // Import the original decorator
             'bodyDecorate' // Method name to spy on
@@ -56,6 +56,22 @@ describe('Body decorator', () => {
         expect(spyOnBodyDecorate).toBeCalledWith(undefined);
     })
 
+    it('bodyDecorate should be call with the right argument', () => {
+        const spyOnBodyDecorate = jest.spyOn(
+            require('../body.decorator'), // Import the original decorator
+            'bodyDecorate' // Method name to spy on
+        );
+
+        const arr = ['name'];
+        class Person {
+            getName(@Body(arr) body: { [key: string]: any }) {
+            }
+        }
+
+        // Check if the Body decorator is applied to the method
+        expect(spyOnBodyDecorate).toBeCalledWith(arr);
+    })
+
     it('metadata should exist', () => {
 
         class Person {
@@ -67,7 +83,7 @@ describe('Body decorator', () => {
         expect(metadata).toBeDefined();
     })
 
-    it('metadata should be 0', () => {
+    it('metadata should be { index: 0, names: undefined }', () => {
 
         class Person {
             getName(@Body() body: { [key: string]: any }) {
@@ -76,6 +92,16 @@ describe('Body decorator', () => {
 
         const metadata = Reflect.getMetadata(MetadataKey.body, Person.prototype, 'getName')
         expect(metadata).toMatchObject({ index: 0, names: undefined });
+    })
+    it('metadata should be { index: 0, names: ["name"] }', () => {
+
+        class Person {
+            getName(@Body(['name']) body: { [key: string]: any }) {
+            }
+        }
+
+        const metadata = Reflect.getMetadata(MetadataKey.body, Person.prototype, 'getName')
+        expect(metadata).toMatchObject({ index: 0, names: ["name"] });
     })
 })
 
