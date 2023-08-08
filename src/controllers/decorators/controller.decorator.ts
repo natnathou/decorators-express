@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import type { NextFunction, Request, Response } from  'express';
 import type { RequestHandler } from 'express-serve-static-core';
 import { AppRouter } from '../../router';
+import { logger } from '../../services/logger.service';
 import type { RoutesTypesKeys } from '../constants';
 import { MetadataKey } from '../constants';
 import type { BodyMetadata } from './body.decorator';
@@ -11,12 +12,11 @@ import type { ParamMetadata } from './param.decorator';
 import type { QueryMetadata } from './query.decorator';
 
 export type ArgumentOptions = Request | Response | NextFunction | { [key: string]: string } | string;
-
 export function Controller(globalPathParam: string) {
   let globalPath = globalPathParam;
   return function <T extends { new(...args: any[]): {} }>(constructor: T)  {
     const prototypeKeys = Object.getOwnPropertyNames(constructor.prototype);
-
+    logger.info(`[${constructor.name}] controller has been instanced`);
     for (const propertyKey of prototypeKeys) {
       const routeType: RoutesTypesKeys = Reflect.getMetadata(MetadataKey.routeType, constructor.prototype, propertyKey);
       let path: string = Reflect.getMetadata(MetadataKey.path, constructor.prototype, propertyKey);
@@ -24,20 +24,25 @@ export function Controller(globalPathParam: string) {
       const globalGuard: GuardFncType | undefined = Reflect.getMetadata(MetadataKey.guard, constructor.prototype, propertyKey);
 
       if (path?.[0] !== '/') {
-        path += '/';
+        path = '/' + path;
+      }
+
+      if (path?.length  && path?.[path?.length - 1] === '/') {
+        path = path.substring(0, path.length - 1);
       }
       if (globalPath?.[0] !== '/') {
-        globalPath += '/';
+        globalPath = '/' + globalPath;
       }
       if (globalPath?.[globalPath?.length - 1] === '/') {
         globalPath = globalPath.substring(0, globalPath.length - 1);
       }
+      const finalPath = `${globalPath}${path}`;
 
-      if (path && routeType) {
+      if (finalPath && routeType) {
         const middlewares: RequestHandler[] = Reflect.getMetadata(MetadataKey.middlewares, constructor.prototype, propertyKey) || [];
-        const finalPath = `${globalPath}${path}`;
         const router = AppRouter.getInstance();
-                
+        logger.info(`[${constructor.name}] route ${routeType.toUpperCase()} | path ${finalPath} has been registered`);
+
         router[routeType](
           finalPath,
           ...globalMiddlewares,
