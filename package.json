@@ -1,7 +1,7 @@
 {
   "name": "decorators-express",
   "version": "1.1.9",
-  "description": "",
+  "description": "Usual decorator for express",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
