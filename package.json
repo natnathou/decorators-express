@@ -18,7 +18,7 @@
     "lint": "eslint \"{src}/**/*.ts\" --cache --fix"
   },
   "keywords": [],
-  "author": "netanel",
+  "author": "natnathou",
   "license": "ISC",
   "devDependencies": {
     "@types/busboy": "^1.5.0",
@@ -57,12 +57,20 @@
     "type": "git",
     "url": "https://github.com/natnathou/decorators-express"
   },
+  "bugs": {
+    "url": "https://github.com/natnathou/decorators-express/issues"
+  },
+  "homepage": "https://github.com/natnathou/decorators-express#readme",
   "keywords": [
     "typescript",
     "decorators",
     "express",
+    "decorators express",
+    "express decorators",
+    "decorators typescript",
+    "typescript decorators",
     "controller",
-    "@controller",
+    "@Controller",
     "middleware",
     "guard",
     "upload",
