@@ -8,6 +8,7 @@ export * from './controllers/decorators/guard.decorator';
 export * from './controllers/decorators/body.decorator';
 export * from './controllers/decorators/param.decorator';
 export * from './controllers/decorators/query.decorator';
+export * from './controllers/decorators/upload.decorator';
 
 export * from './controllers/constants/route-types-keys.constant';
 export * from './controllers/constants/metadata-keys.constant';

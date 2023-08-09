@@ -9,4 +9,5 @@ export enum MetadataKey {
   query = 'query',
   middlewares = 'middlewares',
   guard = 'guard',
+  files = 'files',
 }

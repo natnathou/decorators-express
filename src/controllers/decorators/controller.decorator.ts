@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import type { NextFunction, Request, Response } from  'express';
+import type { NextFunction, Request, Response } from 'express';
 import type { RequestHandler } from 'express-serve-static-core';
 import { AppRouter } from '../../router';
 import { logger } from '../../services/logger.service';
@@ -10,12 +10,13 @@ import type { BodyMetadata } from './body.decorator';
 import type { GuardFncType } from './guard.decorator';
 import type { ParamMetadata } from './param.decorator';
 import type { QueryMetadata } from './query.decorator';
+import { uploadMiddlewares } from './upload.decorator';
 
 export type ArgumentOptions = Request | Response | NextFunction | { [key: string]: string } | string;
 export function Controller(globalPathParam: string) {
   let globalPath = globalPathParam;
-  return function <T extends { new(...args: any[]): {} }>(constructor: T)  {
-    const prototypeKeys = Object.getOwnPropertyNames(constructor.prototype).filter(p=>p !== 'constructor');
+  return function <T extends { new (...args: any[]): {} }>(constructor: T) {
+    const prototypeKeys = Object.getOwnPropertyNames(constructor.prototype).filter((p) => p !== 'constructor');
 
     logger.info(`[${constructor.name}] controller has been instanced`);
     for (const propertyKey of prototypeKeys) {
@@ -23,12 +24,13 @@ export function Controller(globalPathParam: string) {
       let path: string = Reflect.getMetadata(MetadataKey.path, constructor.prototype, propertyKey);
       const globalMiddlewares: RequestHandler[] = Reflect.getMetadata(MetadataKey.middlewares, constructor.prototype, propertyKey) || [];
       const globalGuard: GuardFncType | undefined = Reflect.getMetadata(MetadataKey.guard, constructor.prototype, propertyKey);
+      const fileProprietyFormData: string | undefined = Reflect.getMetadata(MetadataKey.files, constructor.prototype, propertyKey);
 
       if (path?.[0] !== '/') {
         path = '/' + path;
       }
 
-      if (path?.length  && path?.[path?.length - 1] === '/') {
+      if (path?.length && path?.[path?.length - 1] === '/') {
         path = path.substring(0, path.length - 1);
       }
       if (globalPath?.[0] !== '/') {
@@ -48,6 +50,7 @@ export function Controller(globalPathParam: string) {
           finalPath,
           ...globalMiddlewares,
           ...middlewares,
+          uploadMiddlewares(fileProprietyFormData),
           function (req: Request, res: Response, next: NextFunction) {
             const guard: GuardFncType | undefined = Reflect.getMetadata(MetadataKey.guard, constructor.prototype, propertyKey);
             if (globalGuard && !globalGuard(req, res)) {
@@ -61,12 +64,18 @@ export function Controller(globalPathParam: string) {
           function (req: Request, res: Response, next: NextFunction) {
             const args: any[] = setArguments<T>(constructor, propertyKey, req, res, next);
             (constructor.prototype[propertyKey] as Function).apply(constructor.prototype, args);
-          });
+          },
+        );
       }
     }
   };
 }
-function setArguments<T extends { new(...args: any[]): {}; }>(constructor: T, propertyKey: string, req: Request, res: Response, next: NextFunction) {
+
+function setArguments<
+  T extends {
+    new (...args: any[]): {};
+  },
+>(constructor: T, propertyKey: string, req: Request, res: Response, next: NextFunction) {
   const resMetadata: number = Reflect.getMetadata(MetadataKey.res, constructor.prototype, propertyKey);
   const reqMetadata: number = Reflect.getMetadata(MetadataKey.req, constructor.prototype, propertyKey);
   const nextMetadata: number = Reflect.getMetadata(MetadataKey.next, constructor.prototype, propertyKey);
@@ -90,7 +99,7 @@ function setArguments<T extends { new(...args: any[]): {}; }>(constructor: T, pr
     if (names?.length) {
       proprietiesToExtract = {};
       for (let i = 0; i < names?.length; i++) {
-        proprietiesToExtract[names[i]] =  req.body?.[names[i]];
+        proprietiesToExtract[names[i]] = req.body?.[names[i]];
       }
     }
 

@@ -4,3 +4,4 @@
 /reports/
 /dist/
 /.eslintcache
+/tsconfig.tsbuildinfo
