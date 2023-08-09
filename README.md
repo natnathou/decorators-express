@@ -269,9 +269,9 @@ After upload we save all files uploaded in the disk via "fs.createWriteStream", 
     }
 ```
 @Upload receive two arguments.<br />
-**The first one is "name", it must match to propriety on the formData that you sent from the client where you assign the file(s).** <br />
-If from the client you  formData.append("file", "your file") so you need to set { "name": "file"}. <br />
-If from the client you  formData.append("props", "your file") so you need to set { "name": "props"}. <br />
-**The second one is "directory", it must match to path of the directory where you want to save your file(s)**,  like `{directory: ${path.join(__dirname, '..', 'upload')}}`
+**The first one is "name", it must match to the propriety where you assign the file(s) on the formData that you sent from the client.** <br />
+If from the client you set  formData.append("file", "your file") so you need to set { "name": "file"} in the @Upload. <br />
+If from the client you set formData.append("props", "your file") so you need to set { "name": "props"} in the @Upload. <br />
+**The second one is "directory", it must match to the path of the directory where you want to save your file(s)**,  like `{directory: ${path.join(__dirname, '..', 'upload')}}`
 
-**Upload support many files**
+**@Upload support many files**
