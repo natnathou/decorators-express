@@ -25,7 +25,7 @@ export function uploadMiddlewares(namePropriety?: string, pathFile?: string) {
         if (!fs.existsSync(saveTo)) {
           fs.mkdirSync(saveTo, { recursive: true });
         }
-        const stream = fs.createWriteStream(path.join(saveTo, filename));
+        const stream = fs.createWriteStream(path.join(saveTo,   `./${filename}`));
         file.pipe(stream);
         file
           .on('data', (data: any) => {
