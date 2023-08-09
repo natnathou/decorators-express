@@ -255,8 +255,8 @@ So in this case the guard will protect each method of the controller.
 
 
 ### Upload files
-you can upload one or many files using the decorator @Upload
-Upload are handle via the package busboy, unlike multer, busboy process to upload via stream, **actually busboy is the most efficient package to upload file**.
+you can upload one or many files using the decorator @Upload<br />
+Upload are handle via the package busboy, unlike multer, busboy process to upload via stream, **actually busboy is the most efficient package to upload file from a client**.<br />
 After upload we save all files uploaded in the disk via "fs.createWriteStream", it's also the most efficient way to write data on the disk.
 ```
     @Post('/')
