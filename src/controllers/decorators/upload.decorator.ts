@@ -8,7 +8,7 @@ import { logger } from '../../services/logger.service';
 import { MetadataKey } from '../constants';
 
 export interface UploadMetadata { name: string, pathFile: string }
-export function Upload(name: string, pathFile: string) {
+export function Upload({ name, pathFile }: UploadMetadata) {
   return function (prototype: any, propertyKey: string, descriptor: PropertyDescriptor) {
     Reflect.defineMetadata(MetadataKey.files, { name, pathFile } as UploadMetadata, prototype, propertyKey);
   };
