@@ -7,21 +7,21 @@ import path from 'path';
 import { logger } from '../../services/logger.service';
 import { MetadataKey } from '../constants';
 
-export interface UploadMetadata { name: string, pathFile: string }
-export function Upload({ name, pathFile }: UploadMetadata) {
+export interface UploadMetadata { name: string, directory: string }
+export function Upload({ name, directory }: UploadMetadata) {
   return function (prototype: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    Reflect.defineMetadata(MetadataKey.files, { name, pathFile } as UploadMetadata, prototype, propertyKey);
+    Reflect.defineMetadata(MetadataKey.files, { name, directory } as UploadMetadata, prototype, propertyKey);
   };
 }
 
-export function uploadMiddlewares(namePropriety?: string, pathFile?: string) {
+export function uploadMiddlewares(namePropriety?: string, directory?: string) {
   return function (req: Request, res: Response, next: NextFunction) {
-    if (namePropriety && pathFile) {
+    if (namePropriety && directory) {
       const bb = busboy({ headers: req.headers });
       bb.on(namePropriety, (name, file, info) => {
         const { filename, encoding, mimeType } = info;
         logger.info(`[fileMiddlewares]: File [${info.filename}]: filename:${filename}, encoding: ${encoding}, mimeType: ${mimeType}`);
-        const saveTo = pathFile;
+        const saveTo = directory;
         if (!fs.existsSync(saveTo)) {
           fs.mkdirSync(saveTo, { recursive: true });
         }

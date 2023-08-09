@@ -56,5 +56,17 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/natnathou/decorators-express"
-  }
+  },
+  "keywords": [
+    "typescript",
+    "decorators",
+    "express",
+    "controller",
+    "@controller",
+    "middleware",
+    "guard",
+    "upload",
+    "busboy",
+    "stream"
+  ]
 }

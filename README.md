@@ -254,3 +254,24 @@ export class UserController {
 So in this case the guard will protect each method of the controller.
 
 
+### Upload files
+you can upload one or many files using the decorator @Upload
+Upload are handle via the package busboy, unlike multer, busboy process to upload via stream, **actually busboy is the most efficient package to upload file**.
+After upload we save all files uploaded in the disk via "fs.createWriteStream", it's also the most efficient way to write data on the disk.
+```
+    @Post('/')
+    @Upload({  name: 'file', directory: `${path.join(__dirname, '..', 'upload')}` })
+    get(@Res() res: Response) {
+        res.status(200).json([
+            {name: 'john'},
+            {name: 'walter'},
+        ]);
+    }
+```
+@Upload receive two arguments.<br />
+**The first one is "name", it must match to propriety on the formData that you sent from the client where you assign the file(s).** <br />
+If from the client you  formData.append("file", "your file") so you need to set { "name": "file"}. <br />
+If from the client you  formData.append("props", "your file") so you need to set { "name": "props"}. <br />
+**The second one is "directory", it must match to path of the directory where you want to save your file(s)**,  like `{directory: ${path.join(__dirname, '..', 'upload')}}`
+
+**Upload support many files**

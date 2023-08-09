@@ -51,7 +51,7 @@ export function Controller(globalPathParam: string) {
           finalPath,
           ...globalMiddlewares,
           ...middlewares,
-          uploadMiddlewares(uploadMetadata?.name, uploadMetadata?.pathFile),
+          uploadMiddlewares(uploadMetadata?.name, uploadMetadata?.directory),
           function (req: Request, res: Response, next: NextFunction) {
             const guard: GuardFncType | undefined = Reflect.getMetadata(MetadataKey.guard, constructor.prototype, propertyKey);
             if (globalGuard && !globalGuard(req, res)) {
