@@ -1,6 +1,6 @@
 {
   "name": "decorators-express",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,7 +17,6 @@
     "test:e2e": "jest --config e2e.config.ts",
     "lint": "eslint \"{src}/**/*.ts\" --cache --fix"
   },
-  "keywords": [],
   "author": "natnathou",
   "license": "ISC",
   "devDependencies": {
