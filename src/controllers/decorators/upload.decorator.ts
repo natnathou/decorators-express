@@ -25,7 +25,8 @@ export function uploadMiddlewares(namePropriety?: string, pathFile?: string) {
         if (!fs.existsSync(saveTo)) {
           fs.mkdirSync(saveTo, { recursive: true });
         }
-        const stream = fs.createWriteStream(path.join(saveTo,   `./${filename}`));
+        const fullPath = path.join(saveTo,   `./${filename}`);
+        const stream = fs.createWriteStream(fullPath);
         file.pipe(stream);
         file
           .on('data', (data: any) => {
@@ -36,7 +37,7 @@ export function uploadMiddlewares(namePropriety?: string, pathFile?: string) {
           });
 
         stream.on('close', () => {
-          logger.info(`[fileMiddlewares]: File [${info.filename}] done to write on the disk at path ${saveTo + filename}`);
+          logger.info(`[fileMiddlewares]: File [${info.filename}] done to write on the disk at path ${fullPath}`);
           next();
         });
         stream.on('error', (err: Error) => {
