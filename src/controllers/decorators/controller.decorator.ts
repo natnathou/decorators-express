@@ -10,6 +10,7 @@ import type { BodyMetadata } from './body.decorator';
 import type { GuardFncType } from './guard.decorator';
 import type { ParamMetadata } from './param.decorator';
 import type { QueryMetadata } from './query.decorator';
+import type { UploadMetadata } from './upload.decorator';
 import { uploadMiddlewares } from './upload.decorator';
 
 export type ArgumentOptions = Request | Response | NextFunction | { [key: string]: string } | string;
@@ -24,7 +25,7 @@ export function Controller(globalPathParam: string) {
       let path: string = Reflect.getMetadata(MetadataKey.path, constructor.prototype, propertyKey);
       const globalMiddlewares: RequestHandler[] = Reflect.getMetadata(MetadataKey.middlewares, constructor.prototype, propertyKey) || [];
       const globalGuard: GuardFncType | undefined = Reflect.getMetadata(MetadataKey.guard, constructor.prototype, propertyKey);
-      const fileProprietyFormData: string | undefined = Reflect.getMetadata(MetadataKey.files, constructor.prototype, propertyKey);
+      const uploadMetadata: UploadMetadata | undefined = Reflect.getMetadata(MetadataKey.files, constructor.prototype, propertyKey);
 
       if (path?.[0] !== '/') {
         path = '/' + path;
@@ -50,7 +51,7 @@ export function Controller(globalPathParam: string) {
           finalPath,
           ...globalMiddlewares,
           ...middlewares,
-          uploadMiddlewares(fileProprietyFormData),
+          uploadMiddlewares(uploadMetadata?.name, uploadMetadata?.pathFile),
           function (req: Request, res: Response, next: NextFunction) {
             const guard: GuardFncType | undefined = Reflect.getMetadata(MetadataKey.guard, constructor.prototype, propertyKey);
             if (globalGuard && !globalGuard(req, res)) {
