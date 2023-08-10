@@ -6,6 +6,7 @@ a module to build TypeScript application with Express decorators
 npm i -S decorators-express
 ```
 
+
 ## How to use
 ### Import AppRouter instance in your file app.ts
 ```ts
