@@ -26,6 +26,7 @@ export function Controller(globalPathParam: string) {
       const globalMiddlewares: RequestHandler[] = Reflect.getMetadata(MetadataKey.middlewares, constructor.prototype, propertyKey) || [];
       const globalGuard: GuardFncType | undefined = Reflect.getMetadata(MetadataKey.guard, constructor.prototype, propertyKey);
       const uploadMetadata: UploadMetadata | undefined = Reflect.getMetadata(MetadataKey.files, constructor.prototype, propertyKey);
+      console.log(uploadMetadata, "uploadMetadata");
 
       if (path?.[0] !== '/') {
         path = '/' + path;
