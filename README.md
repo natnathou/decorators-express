@@ -8,7 +8,7 @@ npm i -S decorators-express
 
 ## How to use
 ### Import AppRouter instance in your file app.ts
-``` ts
+```ts
 import express from 'express';
 import { AppRouter } from 'decorators-express';
 import './controllers/UserController';
@@ -29,7 +29,7 @@ console.log(`server is listening on ${PORT} port`);
 
 
 ### Declare a class and mark it with @Controller('your path')
-``` ts
+```ts
 import {NextFunction, Request, Response} from 'express';
 import {Controller, Get, Res, Param, Post, Req, Patch, Delete, Guard, Use} from 'decorators-express';
 
@@ -89,14 +89,14 @@ function ValidationMiddleware(req: Request, res: Response, next: NextFunction) {
 
 ```
 ### Don't forget to import all your class in your root file app.ts
-``` ts
+```ts
 import './controllers/UserController';
 ```
 Use @Controller to register express route for class.
 
 Use @Get/@Delete/@Post/@Put/@Patch/@Head/@Options to register sub-route path on a method like:
 
-```
+```ts
 @Get('all')
 getUser(){
 }
@@ -106,7 +106,7 @@ getUser(){
 Inject request parameters with @Param/@Query/@Body
 For @Param/@Query you need to indicate the name or the propriety that you need like: 
 
-```
+```ts
 getUser(@Param('id') id: string){
     res.status(200)
 }
@@ -114,7 +114,7 @@ getUser(@Param('id') id: string){
 
 For Body this you indicate an array of proprieties that you need like: 
 
-```
+```ts
 getUser(@Body(['name', 'phone']) body: {[key:string]: any} ){
     res.status(200)
 }
@@ -122,21 +122,21 @@ getUser(@Body(['name', 'phone']) body: {[key:string]: any} ){
 
 This array of proprieties are optional, so if you need all the body you can do:
 
-```
+```ts
 getUser(@Body() body: {[key:string]: any} ){
     res.status(200)
 }
 ```
 
 Inject Response From express with @Res
-```
+```ts
 getUser(@Res res: Response){
     res.status(200)
 }
 ```
 
 Inject Request From express with @Req
-```
+```ts
 getUser(@Req req: Request){
     const headers = req['headers']
 }
@@ -144,7 +144,7 @@ getUser(@Req req: Request){
 
 Inject Next From express with @Next
 
-```
+```ts
 
 getUser(@Next next: NextFunction){
     next()
@@ -154,7 +154,7 @@ getUser(@Next next: NextFunction){
 ### Middleware
 To Inject middleware you need to use the @Use decorator and pass as argument a function that math to the type RequestHandler like:
 
-```
+```ts
 @Controller('/user')
 export class UserController {
 
@@ -173,7 +173,7 @@ function ValidationMiddleware(req: Request, res: Response, next: NextFunction) {
 
 A middleware can be used on the entire controller like:
 
-```
+```ts
 @Controller('/user')
 @Use(ValidationMiddleware)
 export class UserController {
@@ -191,7 +191,7 @@ function ValidationMiddleware(req: Request, res: Response, next: NextFunction) {
 ```
 So in this case the middleware will be executed on each method of the controller the order of the execution will be global middleware before and unit middleware after.
 You can also set multiple middlewares on the controller or per method like:
-```
+```ts
 @Controller('/user')
 export class UserController {
 
@@ -221,7 +221,7 @@ The order of execution when you set multiple middleware is **from the top**.
 ### Guard
 To Inject guard you need to use the @Guard decorator and pass as argument a function that math to the type (req: Request, res: Response)=> boolean like:
 
-```
+```ts
 @Controller('/user')
 export class UserController {
 
@@ -240,7 +240,7 @@ function AuthGuard(req: Request, res: Response) {
 If guard function return false **it will send status 403**
 
 You can also use @Guard on the controller itself like:
-```
+```ts
 @Controller('/user')
 @Guard(AuthGuard)
 export class UserController {
@@ -258,7 +258,7 @@ So in this case the guard will protect each method of the controller.
 you can upload one or many files using the decorator @Upload<br />
 Upload are handle via the package busboy, unlike multer, busboy process to upload via stream, **actually busboy is the most efficient package to upload file from a client**.<br />
 After upload we save all files uploaded in the disk via "fs.createWriteStream", it's also the most efficient way to write data on the disk.
-```
+```ts
     @Post('/')
     @Upload({  name: 'file', directory: `${path.join(__dirname, '..', 'upload')}` })
     get(@Res() res: Response) {
