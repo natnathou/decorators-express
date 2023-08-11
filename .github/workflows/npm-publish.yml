@@ -34,15 +34,14 @@ jobs:
         run: npm ci && npm run build
       - name: Patch npm version
         run:  npm version patch
-      - name: Publish package on NPM 📦
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        # Push the changes
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.TOKEN_GITHUB }}
           branch: master
-          force: true
+      - name: Publish package on NPM 📦
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        # Push the changes
 
