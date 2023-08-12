@@ -37,6 +37,6 @@ jobs:
         uses: devops-infra/action-pull-request@v0.5.5
         with:
           github_token: ${{ secrets.TOKEN_GITHUB }}
-          source_branch: "branch-${{ gihub.sha }}"
+          source_branch: "branch-${{ github.sha }}"
           target_branch: master
           title: My pull request
