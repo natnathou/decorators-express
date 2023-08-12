@@ -27,6 +27,8 @@ jobs:
           GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
       - name: Git fetch
         run: git fetch
+      - name: Checkout to staging
+        run: git checkout staging
       - name: Checkout to pr
         run: git checkout -b "branch-${{ github.sha }}"
       - name: Create new file
@@ -40,5 +42,5 @@ jobs:
         with:
           github_token: ${{ secrets.TOKEN_GITHUB }}
           source_branch: "branch-${{ github.sha }}"
-          target_branch: master
+          target_branch: staging
           title: My pull request
