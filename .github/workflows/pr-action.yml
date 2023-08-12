@@ -28,7 +28,7 @@ jobs:
       - name: Git fetch
         run: git fetch
       - name: Checkout to pr
-        run: git checkout -b "branch-${{ gihub.sha }}"
+        run: git checkout -b "branch-${{ github.sha }}"
       - name: Create new file
         run: echo "branch-${{ gihub.sha }}" > test.txt
       - name: Commit
