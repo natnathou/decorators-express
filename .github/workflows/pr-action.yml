@@ -33,6 +33,8 @@ jobs:
         run: echo "branch-${{ github.sha }}" > test.txt
       - name: Commit
         run: git add . && git commit -m "update file"
+      - name: Push
+        run: git push origin "branch-${{ github.sha }}"
       - name: Run the Action
         uses: devops-infra/action-pull-request@v0.5.5
         with:
