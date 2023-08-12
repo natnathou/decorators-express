@@ -30,7 +30,7 @@ jobs:
       - name: Checkout to pr
         run: git checkout -b "branch-${{ github.sha }}"
       - name: Create new file
-        run: echo "branch-${{ gihub.sha }}" > test.txt
+        run: echo "branch-${{ github.sha }}" > test.txt
       - name: Commit
         run: git add . && git commit -m "update file"
       - name: Run the Action
