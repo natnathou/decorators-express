@@ -9,6 +9,7 @@ export class AppRouter {
     if (!this.instance) {
       this.instance = router;
     }
+    
     return this.instance;
   }
 }
