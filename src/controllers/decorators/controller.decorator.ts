@@ -18,15 +18,14 @@ export function Controller(globalPathParam: string) {
   let globalPath = globalPathParam;
   return function <T extends { new (...args: any[]): {} }>(constructor: T) {
     const prototypeKeys = Object.getOwnPropertyNames(constructor.prototype).filter((p) => p !== 'constructor');
-
     logger.info(`[${constructor.name}] controller has been instanced`);
     for (const propertyKey of prototypeKeys) {
       const routeType: RoutesTypesKeys = Reflect.getMetadata(MetadataKey.routeType, constructor.prototype, propertyKey);
       let path: string = Reflect.getMetadata(MetadataKey.path, constructor.prototype, propertyKey);
-      const globalMiddlewares: RequestHandler[] = Reflect.getMetadata(MetadataKey.middlewares, constructor.prototype, propertyKey) || [];
-      const globalGuard: GuardFncType | undefined = Reflect.getMetadata(MetadataKey.guard, constructor.prototype, propertyKey);
       const uploadMetadata: UploadMetadata | undefined = Reflect.getMetadata(MetadataKey.files, constructor.prototype, propertyKey);
-      console.log(uploadMetadata, "uploadMetadata");
+      if (uploadMetadata) {
+        console.log(`file: ${uploadMetadata.name} | directory: ${uploadMetadata.directory}`, 'uploadMetadata');
+      }
 
       if (path?.[0] !== '/') {
         path = '/' + path;
@@ -50,14 +49,11 @@ export function Controller(globalPathParam: string) {
 
         router[routeType](
           finalPath,
-          ...globalMiddlewares,
           ...middlewares,
           uploadMiddlewares(uploadMetadata?.name, uploadMetadata?.directory),
           function (req: Request, res: Response, next: NextFunction) {
             const guard: GuardFncType | undefined = Reflect.getMetadata(MetadataKey.guard, constructor.prototype, propertyKey);
-            if (globalGuard && !globalGuard(req, res)) {
-              res.status(403);
-            } else if (guard && !guard(req, res)) {
+            if (guard && !guard(req, res)) {
               res.status(403);
             } else {
               next();
